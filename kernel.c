@@ -1,10 +1,27 @@
 #include "kernel.h"
 #include <stdio.h>
+#include "user_app.h"
+#include "timer.h"
+#include <xc.h>
 
 // Variáveis globais
 queue_t ReadyQueue;
 uint8_t task_running = 0;
 uint16_t *task_running_tos = NULL;
+
+void os_config(void)
+{
+    ReadyQueue.queue_size   = 0;
+    config_timer_0();
+    config_user_app();
+}
+
+void os_start_scheduler(void)
+{
+    task_running_tos = ReadyQueue.tasks[0].sp;    
+    T1CONbits.TON = 1;
+    RESTORE_CONTEXT();
+}
 
 void create_task(callback task, uint8_t prior)
 {
@@ -42,6 +59,11 @@ void init_stack(tcb_t *task)
     for (int i = 0; i < 15; i++) {
         *sp++ = 0x0000;
     }
+  
+    *sp++ = 0x0000; // RCOUNT
+    *sp++ = 0x0000; // TBLPAG
+    *sp++ = 0x0000; // PSVPAG
+    *sp++ = 0x0000; // CORCON
     
-    
+    task->sp = sp;
 }

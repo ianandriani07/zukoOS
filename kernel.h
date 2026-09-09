@@ -9,6 +9,8 @@ extern uint16_t *task_running_tos;
 
 void create_task(callback task, uint8_t prior);
 void init_stack(tcb_t *task);
+void os_config(void);
+void os_start_scheduler(void);
 
 #define SAVE_CONTEXT() \
 do { \
@@ -37,8 +39,8 @@ do { \
     "MOV CORCON, W0 \n" \
     "PUSH W0 \n" \
     "MOV W15, _task_running_tos \n" \
-  ) \
-} while(0);
+  ); \
+} while(0)
 
 #define RESTORE_CONTEXT() \
 do { \
@@ -68,8 +70,8 @@ do { \
     "POP W1 \n" \
     "POP W0 \n" \
     "RETFIE \n" \
-  ) \
-} while(0);
+  ); \
+} while(0)
 
 #endif	/* KERNEL_H */
 
