@@ -13,7 +13,7 @@ void os_config(void);
 void os_start_scheduler(void);
 
 void task_yield();
-void task_delay(uint16_t time);
+void task_delay();
 void delay_release();
 
 #define SAVE_CONTEXT() \

@@ -71,11 +71,11 @@ void init_stack(tcb_t *task)
     task->sp = sp;
 }
 
-void task_yield(state_t task_state)
+void task_yield()
 {   
     __builtin_disable_interrupts();
-    ReadyQueue.tasks[task_running].task_state = task_state;    
-    IFS0bits.INT0IF = 1;
+    ReadyQueue.tasks[task_running].task_state = READY;    
+    CONTEX_SWITCH();
     __builtin_enable_interrupts();
 }
 
@@ -86,10 +86,10 @@ void task_delay(uint16_t time)
     //__builtin_disi(16383);
     
     ReadyQueue.tasks[task_running].task_delay = time;
+    ReadyQueue.tasks[task_running].task_state = WAITING;
+    CONTEX_SWITCH();
     
     __builtin_enable_interrupts();
-    //__builtin_disi(0);
-    task_yield(WAITING);    
 }
 
 void delay_release()
