@@ -24,6 +24,7 @@ Command:
   build/default/production/scheduler.o \
   build/default/production/user_app.o \
   build/default/production/int.o \
+  build/default/production/sync.o \
   --defsym=__MPLAB_BUILD=1 \
   -Tp24FJ128GA010.gld.00 \
   --stack=16 \
@@ -70,10 +71,10 @@ Default Scalar Model: Small
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
 .text                        0x200               0x23a           0x357  (855)
-.text                        0x43a               0x342           0x4e3  (1251)
-.dinit                       0x77c                 0xe            0x15  (21)
+.text                        0x43a               0x422           0x633  (1587)
+.dinit                       0x85c                 0xe            0x15  (21)
 
-                 Total "program" memory used (bytes):          0x84f  (2127) 1%
+                 Total "program" memory used (bytes):          0x99f  (2463) 1%
 
 
 "data" Memory  [Origin = 0x800, Length = 0x2000]
@@ -114,8 +115,8 @@ External Symbols in Program Memory (by address):
 
                   0x000200                  __resetPRI
                   0x00023c                  __psv_init
-                  0x000252                  __data_init
                   0x000252                  __data_init_standard
+                  0x000252                  __data_init
                   0x0002d8                  __T1Interrupt
                   0x000390                  __INT0Interrupt
                   0x000434                  __DefaultInterrupt
@@ -127,16 +128,19 @@ External Symbols in Program Memory (by address):
                   0x000574                  _task_delay
                   0x0005b0                  _delay_release
                   0x000634                  _idle
-                  0x00063c                  _scheduler
-                  0x000644                  _rr_scheduler
-                  0x0006ba                  _prior_scheduler
-                  0x0006c0                  _tarefa_a
-                  0x0006de                  _tarefa_b
-                  0x0006fe                  _tarefa_c
-                  0x00071e                  _config_user_app
-                  0x00072a                  _config_timer_0
-                  0x00074e                  _main
-                  0x000768                  _config_int0
+                  0x00063c                  _sem_init
+                  0x00065a                  _sem_wait
+                  0x0006be                  _sem_post
+                  0x00071c                  _scheduler
+                  0x000724                  _rr_scheduler
+                  0x00079a                  _prior_scheduler
+                  0x0007a0                  _tarefa_a
+                  0x0007be                  _tarefa_b
+                  0x0007de                  _tarefa_c
+                  0x0007fe                  _config_user_app
+                  0x00080a                  _config_timer_0
+                  0x00082e                  _main
+                  0x000848                  _config_int0
 
 External Symbols in Program Memory (by name):
 
@@ -147,22 +151,25 @@ External Symbols in Program Memory (by name):
                   0x000252                  __data_init_standard
                   0x00023c                  __psv_init
                   0x000200                  __resetPRI
-                  0x000768                  _config_int0
-                  0x00072a                  _config_timer_0
-                  0x00071e                  _config_user_app
+                  0x000848                  _config_int0
+                  0x00080a                  _config_timer_0
+                  0x0007fe                  _config_user_app
                   0x000490                  _create_task
                   0x0005b0                  _delay_release
                   0x000634                  _idle
                   0x0004e2                  _init_stack
-                  0x00074e                  _main
+                  0x00082e                  _main
                   0x00043a                  _os_config
                   0x000452                  _os_start_scheduler
-                  0x0006ba                  _prior_scheduler
-                  0x000644                  _rr_scheduler
-                  0x00063c                  _scheduler
-                  0x0006c0                  _tarefa_a
-                  0x0006de                  _tarefa_b
-                  0x0006fe                  _tarefa_c
+                  0x00079a                  _prior_scheduler
+                  0x000724                  _rr_scheduler
+                  0x00071c                  _scheduler
+                  0x00063c                  _sem_init
+                  0x0006be                  _sem_post
+                  0x00065a                  _sem_wait
+                  0x0007a0                  _tarefa_a
+                  0x0007be                  _tarefa_b
+                  0x0007de                  _tarefa_c
                   0x000574                  _task_delay
                   0x00054a                  _task_yield
 
@@ -187,6 +194,7 @@ LOAD build/default/production/kernel.o
 LOAD build/default/production/scheduler.o
 LOAD build/default/production/user_app.o
 LOAD build/default/production/int.o
+LOAD build/default/production/sync.o
                     0x0001                  __MPLAB_BUILD = 0x1
 LOAD pPIC24Fxxx
 LOAD c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libfx-elf.a
@@ -245,17 +253,18 @@ __CONFIG1
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x20cb
+.debug_info       0x000000       0x2651
  *(.debug_info)
  .debug_info      0x000000        0x16f build/default/production/main.o
- .debug_info      0x00016f        0x8f4 build/default/production/timer.o
- .debug_info      0x000a63        0x734 build/default/production/kernel.o
- .debug_info      0x001197        0x393 build/default/production/scheduler.o
- .debug_info      0x00152a        0x3ff build/default/production/user_app.o
- .debug_info      0x001929        0x7a2 build/default/production/int.o
+ .debug_info      0x00016f        0x8fe build/default/production/timer.o
+ .debug_info      0x000a6d        0x73e build/default/production/kernel.o
+ .debug_info      0x0011ab        0x39d build/default/production/scheduler.o
+ .debug_info      0x001548        0x3ff build/default/production/user_app.o
+ .debug_info      0x001947        0x7ac build/default/production/int.o
+ .debug_info      0x0020f3        0x55e build/default/production/sync.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev     0x000000        0x617
+.debug_abbrev     0x000000        0x6fb
  *(.debug_abbrev)
  .debug_abbrev    0x000000         0x34 build/default/production/main.o
  .debug_abbrev    0x000034        0x163 build/default/production/timer.o
@@ -263,8 +272,9 @@ __CONFIG1
  .debug_abbrev    0x000373         0xdd build/default/production/scheduler.o
  .debug_abbrev    0x000450         0x8a build/default/production/user_app.o
  .debug_abbrev    0x0004da        0x13d build/default/production/int.o
+ .debug_abbrev    0x000617         0xe4 build/default/production/sync.o
 
-.debug_line       0x000000        0x5d9
+.debug_line       0x000000        0x703
  *(.debug_line)
  .debug_line      0x000000         0x37 build/default/production/main.o
  .debug_line      0x000037        0x143 build/default/production/timer.o
@@ -272,8 +282,9 @@ __CONFIG1
  .debug_line      0x0002e2         0xa3 build/default/production/scheduler.o
  .debug_line      0x000385        0x119 build/default/production/user_app.o
  .debug_line      0x00049e        0x13b build/default/production/int.o
+ .debug_line      0x0005d9        0x12a build/default/production/sync.o
 
-.debug_frame      0x000000        0x26c
+.debug_frame      0x000000        0x2ce
  *(.debug_frame)
  .debug_frame     0x000000         0x2e build/default/production/main.o
  .debug_frame     0x00002e         0x3e build/default/production/timer.o
@@ -281,14 +292,16 @@ __CONFIG1
  .debug_frame     0x000150         0x62 build/default/production/scheduler.o
  .debug_frame     0x0001b2         0x7c build/default/production/user_app.o
  .debug_frame     0x00022e         0x3e build/default/production/int.o
+ .debug_frame     0x00026c         0x62 build/default/production/sync.o
 
-.debug_str        0x000000        0x104
+.debug_str        0x000000        0x125
  *(.debug_str)
  .debug_str       0x000000         0x4e build/default/production/timer.o
  .debug_str       0x00004e         0x47 build/default/production/kernel.o
  .debug_str       0x000095         0x18 build/default/production/scheduler.o
  .debug_str       0x0000ad         0x13 build/default/production/user_app.o
  .debug_str       0x0000c0         0x44 build/default/production/int.o
+ .debug_str       0x000104         0x21 build/default/production/sync.o
 
 .debug_loc
  *(.debug_loc)
@@ -297,7 +310,7 @@ __CONFIG1
  *(.debug_macinfo)
 
 .debug_pubnames
-                  0x000000        0x1dc
+                  0x000000        0x215
  *(.debug_pubnames)
  .debug_pubnames
                   0x000000         0x1b build/default/production/main.o
@@ -311,11 +324,13 @@ __CONFIG1
                   0x00015a         0x4d build/default/production/user_app.o
  .debug_pubnames
                   0x0001a7         0x35 build/default/production/int.o
+ .debug_pubnames
+                  0x0001dc         0x39 build/default/production/sync.o
 
 .debug_ranges
  *(.debug_ranges)
 
-.debug_aranges    0x000000         0x90
+.debug_aranges    0x000000         0xa8
  *(.debug_aranges)
  .debug_aranges
                   0x000000         0x18 build/default/production/main.o
@@ -329,6 +344,8 @@ __CONFIG1
                   0x000060         0x18 build/default/production/user_app.o
  .debug_aranges
                   0x000078         0x18 build/default/production/int.o
+ .debug_aranges
+                  0x000090         0x18 build/default/production/sync.o
                     0x0000                  WREG0 = 0x0
                     0x0000                  _WREG0 = 0x0
                     0x0002                  WREG1 = 0x2
@@ -912,38 +929,42 @@ LOAD default_isr
 LOAD data_init
 
 .debug_pubtypes
-                  0x000090        0x326
+                  0x0000a8        0x3c1
  .debug_pubtypes
-                  0x000090         0x12 build/default/production/main.o
+                  0x0000a8         0x12 build/default/production/main.o
  .debug_pubtypes
-                  0x0000a2         0xe2 build/default/production/timer.o
+                  0x0000ba         0xe2 build/default/production/timer.o
  .debug_pubtypes
-                  0x000184         0xa8 build/default/production/kernel.o
+                  0x00019c         0xa8 build/default/production/kernel.o
  .debug_pubtypes
-                  0x00022c         0x6c build/default/production/scheduler.o
+                  0x000244         0x6c build/default/production/scheduler.o
  .debug_pubtypes
-                  0x000298         0x5b build/default/production/user_app.o
+                  0x0002b0         0x5b build/default/production/user_app.o
  .debug_pubtypes
-                  0x0002f3         0xc3 build/default/production/int.o
+                  0x00030b         0xc3 build/default/production/int.o
+ .debug_pubtypes
+                  0x0003ce         0x9b build/default/production/sync.o
 
 __c30_signature
-                  0x0003b6         0x30
+                  0x000469         0x36
  __c30_signature
-                  0x0003b6          0x6 build/default/production/main.o
+                  0x000469          0x6 build/default/production/main.o
  __c30_signature
-                  0x0003bc          0x6 build/default/production/timer.o
+                  0x00046f          0x6 build/default/production/timer.o
  __c30_signature
-                  0x0003c2          0x6 build/default/production/kernel.o
+                  0x000475          0x6 build/default/production/kernel.o
  __c30_signature
-                  0x0003c8          0x6 build/default/production/scheduler.o
+                  0x00047b          0x6 build/default/production/scheduler.o
  __c30_signature
-                  0x0003ce          0x6 build/default/production/user_app.o
+                  0x000481          0x6 build/default/production/user_app.o
  __c30_signature
-                  0x0003d4          0x6 build/default/production/int.o
+                  0x000487          0x6 build/default/production/int.o
  __c30_signature
-                  0x0003da          0x6 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(crt0_standard.o)
+                  0x00048d          0x6 build/default/production/sync.o
  __c30_signature
-                  0x0003e0          0x6 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(data_init_standard.o)
+                  0x000493          0x6 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(crt0_standard.o)
+ __c30_signature
+                  0x000499          0x6 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(data_init_standard.o)
 
 .nbss               0x0800          0x4
  .nbss              0x0800          0x4 build/default/production/kernel.o
@@ -964,7 +985,7 @@ __c30_signature
  .ivt._INT0Interrupt
                   0x000014          0x2 build/default/production/int.o
 
-.text             0x00043a        0x342
+.text             0x00043a        0x422
  .text            0x00043a        0x202 build/default/production/kernel.o
                   0x00043a                  _os_config
                   0x000452                  _os_start_scheduler
@@ -974,21 +995,25 @@ __c30_signature
                   0x000574                  _task_delay
                   0x0005b0                  _delay_release
                   0x000634                  _idle
- .text            0x00063c         0x84 build/default/production/scheduler.o
-                  0x00063c                  _scheduler
-                  0x000644                  _rr_scheduler
-                  0x0006ba                  _prior_scheduler
- .text            0x0006c0         0x6a build/default/production/user_app.o
-                  0x0006c0                  _tarefa_a
-                  0x0006de                  _tarefa_b
-                  0x0006fe                  _tarefa_c
-                  0x00071e                  _config_user_app
- .text            0x00072a         0x24 build/default/production/timer.o
-                  0x00072a                  _config_timer_0
- .text            0x00074e         0x1a build/default/production/main.o
-                  0x00074e                  _main
- .text            0x000768         0x14 build/default/production/int.o
-                  0x000768                  _config_int0
+ .text            0x00063c         0xe0 build/default/production/sync.o
+                  0x00063c                  _sem_init
+                  0x00065a                  _sem_wait
+                  0x0006be                  _sem_post
+ .text            0x00071c         0x84 build/default/production/scheduler.o
+                  0x00071c                  _scheduler
+                  0x000724                  _rr_scheduler
+                  0x00079a                  _prior_scheduler
+ .text            0x0007a0         0x6a build/default/production/user_app.o
+                  0x0007a0                  _tarefa_a
+                  0x0007be                  _tarefa_b
+                  0x0007de                  _tarefa_c
+                  0x0007fe                  _config_user_app
+ .text            0x00080a         0x24 build/default/production/timer.o
+                  0x00080a                  _config_timer_0
+ .text            0x00082e         0x1a build/default/production/main.o
+                  0x00082e                  _main
+ .text            0x000848         0x14 build/default/production/int.o
+                  0x000848                  _config_int0
 
-.dinit            0x00077c          0xe
- .dinit           0x00077c          0xe data_init
+.dinit            0x00085c          0xe
+ .dinit           0x00085c          0xe data_init
