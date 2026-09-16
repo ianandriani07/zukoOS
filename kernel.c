@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "user_app.h"
 #include "timer.h"
+#include "int.h"
 #include <xc.h>
 
 // Variáveis globais
@@ -13,6 +14,7 @@ void os_config(void)
 {
     ReadyQueue.queue_size   = 0;
     config_timer_0();
+    config_int0();
     config_user_app();
 }
 
@@ -32,6 +34,7 @@ void create_task(callback task, uint8_t prior)
     new_task->task_func     = task;
     new_task->task_prior    = prior;
     new_task->task_state    = READY;
+    new_task->task_delay    = 0;
     
     // Ajustar o SP
     new_task->sp            = &new_task->task_stack[0];
@@ -66,4 +69,39 @@ void init_stack(tcb_t *task)
     *sp++ = 0x0000; // CORCON
     
     task->sp = sp;
+}
+
+void task_yield(state_t task_state)
+{   
+    __builtin_disable_interrupts();
+    ReadyQueue.tasks[task_running].task_state = task_state;    
+    IFS0bits.INT0IF = 1;
+    __builtin_enable_interrupts();
+}
+
+void task_delay(uint16_t time)
+{
+    __builtin_disable_interrupts();
+    
+    //__builtin_disi(16383);
+    
+    ReadyQueue.tasks[task_running].task_delay = time;
+    
+    __builtin_enable_interrupts();
+    //__builtin_disi(0);
+    task_yield(WAITING);    
+}
+
+void delay_release()
+{
+    for (int i = 0; i < ReadyQueue.queue_size; i++) {
+        if (ReadyQueue.tasks[i].task_state == WAITING) {
+            if (ReadyQueue.tasks[i].task_delay > 0) {
+                ReadyQueue.tasks[i].task_delay--;
+            }
+            if (ReadyQueue.tasks[i].task_delay == 0) {
+                ReadyQueue.tasks[i].task_state = READY;
+            }
+        }
+    }
 }

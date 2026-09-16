@@ -1,4 +1,5 @@
 #include "user_app.h"
+#include "kernel.h"
 #include <xc.h>
 
 TASK tarefa_a(void)
@@ -11,6 +12,7 @@ TASK tarefa_b(void)
 {
     while (1) {
         LATEbits.LATE1 ^= 1;
+        task_delay(100);
     }
 }
 TASK tarefa_c(void)

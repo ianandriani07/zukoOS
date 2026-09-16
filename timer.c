@@ -6,6 +6,7 @@ extern queue_t ReadyQueue;
 extern uint8_t task_running;
 extern uint16_t *task_running_tos;
 
+
 void config_timer_0(void)
 {
     T1CONbits.TCS = 0;          // Clock interno 
@@ -22,10 +23,15 @@ void __attribute__ ((interrupt, no_auto_psv, naked)) _T1Interrupt()
     
     IFS0bits.T1IF = 0;
     
+    // Tarefa que está deixando a CPU
     ReadyQueue.tasks[task_running].sp = task_running_tos;
     ReadyQueue.tasks[task_running].task_state = READY;
     
+    delay_release();
+    
     task_running = scheduler();
+    
+    // Tarefa que irá assumir a CPU
     task_running_tos = ReadyQueue.tasks[task_running].sp;
     ReadyQueue.tasks[task_running].task_state = RUNNING;
     

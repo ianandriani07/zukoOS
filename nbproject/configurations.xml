@@ -10,6 +10,7 @@
       <itemPath>user_app.h</itemPath>
       <itemPath>timer.h</itemPath>
       <itemPath>os_config.h</itemPath>
+      <itemPath>int.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -28,6 +29,7 @@
       <itemPath>kernel.c</itemPath>
       <itemPath>scheduler.c</itemPath>
       <itemPath>user_app.c</itemPath>
+      <itemPath>int.c</itemPath>
     </logicalFolder>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>

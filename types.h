@@ -13,6 +13,7 @@ typedef enum {READY = 0, RUNNING, WAITING} state_t;
 typedef struct tcb {
     uint8_t task_id;
     uint8_t task_prior;
+    uint16_t task_delay;
     callback task_func;
     state_t task_state;
     uint16_t task_stack[MAX_STACK_SIZE];
