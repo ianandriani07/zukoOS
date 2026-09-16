@@ -2,6 +2,7 @@
 #include "int.h"
 #include <xc.h>
 
+
 // Variáveis globais
 extern queue_t ReadyQueue;
 extern uint8_t task_running;
