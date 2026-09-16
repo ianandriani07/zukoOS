@@ -69,11 +69,11 @@ Default Scalar Model: Small
 
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
-.text                        0x200               0x236           0x351  (849)
-.text                        0x436               0x2ec           0x462  (1122)
-.dinit                       0x722                 0xe            0x15  (21)
+.text                        0x200               0x23a           0x357  (855)
+.text                        0x43a               0x342           0x4e3  (1251)
+.dinit                       0x77c                 0xe            0x15  (21)
 
-                 Total "program" memory used (bytes):          0x7c8  (1992) 1%
+                 Total "program" memory used (bytes):          0x84f  (2127) 1%
 
 
 "data" Memory  [Origin = 0x800, Length = 0x2000]
@@ -81,9 +81,9 @@ section                    address   length (PC units)   length (bytes) (dec)
 section                    address      alignment gaps    total length  (dec)
 -------                    -------      --------------    -------------------
 .nbss                        0x800                   0             0x4  (4)
-.bss                         0x804                   0           0x174  (372)
+.bss                         0x804                   0           0x1be  (446)
 
-                 Total "data" memory used (bytes):          0x178  (376) 4%
+                 Total "data" memory used (bytes):          0x1c2  (450) 5%
 
 
 Dynamic Memory Usage
@@ -91,9 +91,9 @@ Dynamic Memory Usage
 region                     address                      maximum length  (dec)
 ------                     -------                      ---------------------
 heap                             0                                   0  (0)
-stack                        0x978                              0x1e88  (7816)
+stack                        0x9c2                              0x1e3e  (7742)
 
-                 Maximum dynamic memory (bytes):         0x1e88  (7816)
+                 Maximum dynamic memory (bytes):         0x1e3e  (7742)
 
 Info: Project is using a large data memory model when small data memory model is sufficient.
 
@@ -116,53 +116,55 @@ External Symbols in Program Memory (by address):
                   0x00023c                  __psv_init
                   0x000252                  __data_init
                   0x000252                  __data_init_standard
-                  0x0002d4                  __T1Interrupt
-                  0x00038c                  __INT0Interrupt
-                  0x000430                  __DefaultInterrupt
-                  0x000436                  _os_config
-                  0x000448                  _os_start_scheduler
-                  0x000486                  _create_task
-                  0x0004d8                  _init_stack
-                  0x000540                  _task_yield
-                  0x00056a                  _task_delay
-                  0x0005a6                  _delay_release
-                  0x00062a                  _tarefa_a
-                  0x000644                  _tarefa_b
-                  0x000664                  _tarefa_c
-                  0x000680                  _config_user_app
-                  0x00068c                  _scheduler
-                  0x000694                  _rr_scheduler
-                  0x0006ca                  _prior_scheduler
-                  0x0006d0                  _config_timer_0
-                  0x0006f4                  _main
-                  0x00070e                  _config_int0
+                  0x0002d8                  __T1Interrupt
+                  0x000390                  __INT0Interrupt
+                  0x000434                  __DefaultInterrupt
+                  0x00043a                  _os_config
+                  0x000452                  _os_start_scheduler
+                  0x000490                  _create_task
+                  0x0004e2                  _init_stack
+                  0x00054a                  _task_yield
+                  0x000574                  _task_delay
+                  0x0005b0                  _delay_release
+                  0x000634                  _idle
+                  0x00063c                  _scheduler
+                  0x000644                  _rr_scheduler
+                  0x0006ba                  _prior_scheduler
+                  0x0006c0                  _tarefa_a
+                  0x0006de                  _tarefa_b
+                  0x0006fe                  _tarefa_c
+                  0x00071e                  _config_user_app
+                  0x00072a                  _config_timer_0
+                  0x00074e                  _main
+                  0x000768                  _config_int0
 
 External Symbols in Program Memory (by name):
 
-                  0x000430                  __DefaultInterrupt
-                  0x00038c                  __INT0Interrupt
-                  0x0002d4                  __T1Interrupt
+                  0x000434                  __DefaultInterrupt
+                  0x000390                  __INT0Interrupt
+                  0x0002d8                  __T1Interrupt
                   0x000252                  __data_init
                   0x000252                  __data_init_standard
                   0x00023c                  __psv_init
                   0x000200                  __resetPRI
-                  0x00070e                  _config_int0
-                  0x0006d0                  _config_timer_0
-                  0x000680                  _config_user_app
-                  0x000486                  _create_task
-                  0x0005a6                  _delay_release
-                  0x0004d8                  _init_stack
-                  0x0006f4                  _main
-                  0x000436                  _os_config
-                  0x000448                  _os_start_scheduler
-                  0x0006ca                  _prior_scheduler
-                  0x000694                  _rr_scheduler
-                  0x00068c                  _scheduler
-                  0x00062a                  _tarefa_a
-                  0x000644                  _tarefa_b
-                  0x000664                  _tarefa_c
-                  0x00056a                  _task_delay
-                  0x000540                  _task_yield
+                  0x000768                  _config_int0
+                  0x00072a                  _config_timer_0
+                  0x00071e                  _config_user_app
+                  0x000490                  _create_task
+                  0x0005b0                  _delay_release
+                  0x000634                  _idle
+                  0x0004e2                  _init_stack
+                  0x00074e                  _main
+                  0x00043a                  _os_config
+                  0x000452                  _os_start_scheduler
+                  0x0006ba                  _prior_scheduler
+                  0x000644                  _rr_scheduler
+                  0x00063c                  _scheduler
+                  0x0006c0                  _tarefa_a
+                  0x0006de                  _tarefa_b
+                  0x0006fe                  _tarefa_c
+                  0x000574                  _task_delay
+                  0x00054a                  _task_yield
 
 Memory Configuration
 
@@ -203,7 +205,7 @@ LOAD c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libfx-elf.a
                   0x000002          0x2 SHORT 0x0 ((ABSOLUTE (__reset) >> 0x10) & 0x7f)
                   0x000003          0x2 SHORT 0x0
 
-.text             0x000200        0x236
+.text             0x000200        0x23a
  *(.init)
  .init            0x000200         0x4c c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(crt0_standard.o)
                   0x000200                  __resetPRI
@@ -214,22 +216,22 @@ LOAD c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libfx-elf.a
                   0x000252                  __data_init
  *(.user_init)
  *(.handle)
- .handle          0x0002c8          0xc jump_table
+ .handle          0x0002c8         0x10 jump_table
  *(.isr*)
- .isr.text        0x0002d4         0xb8 build/default/production/timer.o
-                  0x0002d4                  __T1Interrupt
- .isr.text        0x00038c         0xa4 build/default/production/int.o
-                  0x00038c                  __INT0Interrupt
- .isr             0x000430          0x4 default_isr
-                  0x000430                  __DefaultInterrupt
+ .isr.text        0x0002d8         0xb8 build/default/production/timer.o
+                  0x0002d8                  __T1Interrupt
+ .isr.text        0x000390         0xa4 build/default/production/int.o
+                  0x000390                  __INT0Interrupt
+ .isr             0x000434          0x4 default_isr
+                  0x000434                  __DefaultInterrupt
  *(.libc)
  *(.libm)
  *(.libdsp)
  *(.lib*)
  .libpic30_crt_start_mode
-                  0x000434          0x2 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(crt_start_mode_normal.Meo)
-                  0x000434                  __crt_start_mode
-                  0x000434                  __crt_start_mode_normal
+                  0x000438          0x2 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(crt_start_mode_normal.Meo)
+                  0x000438                  __crt_start_mode
+                  0x000438                  __crt_start_mode_normal
 
 usercode
  *(usercode)
@@ -243,14 +245,14 @@ __CONFIG1
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x20a3
+.debug_info       0x000000       0x20cb
  *(.debug_info)
  .debug_info      0x000000        0x16f build/default/production/main.o
  .debug_info      0x00016f        0x8f4 build/default/production/timer.o
- .debug_info      0x000a63        0x721 build/default/production/kernel.o
- .debug_info      0x001184        0x37e build/default/production/scheduler.o
- .debug_info      0x001502        0x3ff build/default/production/user_app.o
- .debug_info      0x001901        0x7a2 build/default/production/int.o
+ .debug_info      0x000a63        0x734 build/default/production/kernel.o
+ .debug_info      0x001197        0x393 build/default/production/scheduler.o
+ .debug_info      0x00152a        0x3ff build/default/production/user_app.o
+ .debug_info      0x001929        0x7a2 build/default/production/int.o
  *(.gnu.linkonce.wi.*)
 
 .debug_abbrev     0x000000        0x617
@@ -262,23 +264,23 @@ __CONFIG1
  .debug_abbrev    0x000450         0x8a build/default/production/user_app.o
  .debug_abbrev    0x0004da        0x13d build/default/production/int.o
 
-.debug_line       0x000000        0x5cd
+.debug_line       0x000000        0x5d9
  *(.debug_line)
  .debug_line      0x000000         0x37 build/default/production/main.o
  .debug_line      0x000037        0x143 build/default/production/timer.o
- .debug_line      0x00017a        0x163 build/default/production/kernel.o
- .debug_line      0x0002dd         0x9e build/default/production/scheduler.o
- .debug_line      0x00037b        0x117 build/default/production/user_app.o
- .debug_line      0x000492        0x13b build/default/production/int.o
+ .debug_line      0x00017a        0x168 build/default/production/kernel.o
+ .debug_line      0x0002e2         0xa3 build/default/production/scheduler.o
+ .debug_line      0x000385        0x119 build/default/production/user_app.o
+ .debug_line      0x00049e        0x13b build/default/production/int.o
 
-.debug_frame      0x000000        0x252
+.debug_frame      0x000000        0x26c
  *(.debug_frame)
  .debug_frame     0x000000         0x2e build/default/production/main.o
  .debug_frame     0x00002e         0x3e build/default/production/timer.o
- .debug_frame     0x00006c         0xca build/default/production/kernel.o
- .debug_frame     0x000136         0x62 build/default/production/scheduler.o
- .debug_frame     0x000198         0x7c build/default/production/user_app.o
- .debug_frame     0x000214         0x3e build/default/production/int.o
+ .debug_frame     0x00006c         0xe4 build/default/production/kernel.o
+ .debug_frame     0x000150         0x62 build/default/production/scheduler.o
+ .debug_frame     0x0001b2         0x7c build/default/production/user_app.o
+ .debug_frame     0x00022e         0x3e build/default/production/int.o
 
 .debug_str        0x000000        0x104
  *(.debug_str)
@@ -295,20 +297,20 @@ __CONFIG1
  *(.debug_macinfo)
 
 .debug_pubnames
-                  0x000000        0x1d3
+                  0x000000        0x1dc
  *(.debug_pubnames)
  .debug_pubnames
                   0x000000         0x1b build/default/production/main.o
  .debug_pubnames
                   0x00001b         0x36 build/default/production/timer.o
  .debug_pubnames
-                  0x000051         0xbb build/default/production/kernel.o
+                  0x000051         0xc4 build/default/production/kernel.o
  .debug_pubnames
-                  0x00010c         0x45 build/default/production/scheduler.o
+                  0x000115         0x45 build/default/production/scheduler.o
  .debug_pubnames
-                  0x000151         0x4d build/default/production/user_app.o
+                  0x00015a         0x4d build/default/production/user_app.o
  .debug_pubnames
-                  0x00019e         0x35 build/default/production/int.o
+                  0x0001a7         0x35 build/default/production/int.o
 
 .debug_ranges
  *(.debug_ranges)
@@ -948,8 +950,8 @@ __c30_signature
                     0x0800                  _task_running
                     0x0802                  _task_running_tos
 
-.bss                0x0804        0x174
- .bss               0x0804        0x174 build/default/production/kernel.o
+.bss                0x0804        0x1be
+ .bss               0x0804        0x1be build/default/production/kernel.o
                     0x0804                  _ReadyQueue
 
 .ivt._T1Interrupt
@@ -962,30 +964,31 @@ __c30_signature
  .ivt._INT0Interrupt
                   0x000014          0x2 build/default/production/int.o
 
-.text             0x000436        0x2ec
- .text            0x000436        0x1f4 build/default/production/kernel.o
-                  0x000436                  _os_config
-                  0x000448                  _os_start_scheduler
-                  0x000486                  _create_task
-                  0x0004d8                  _init_stack
-                  0x000540                  _task_yield
-                  0x00056a                  _task_delay
-                  0x0005a6                  _delay_release
- .text            0x00062a         0x62 build/default/production/user_app.o
-                  0x00062a                  _tarefa_a
-                  0x000644                  _tarefa_b
-                  0x000664                  _tarefa_c
-                  0x000680                  _config_user_app
- .text            0x00068c         0x44 build/default/production/scheduler.o
-                  0x00068c                  _scheduler
-                  0x000694                  _rr_scheduler
-                  0x0006ca                  _prior_scheduler
- .text            0x0006d0         0x24 build/default/production/timer.o
-                  0x0006d0                  _config_timer_0
- .text            0x0006f4         0x1a build/default/production/main.o
-                  0x0006f4                  _main
- .text            0x00070e         0x14 build/default/production/int.o
-                  0x00070e                  _config_int0
+.text             0x00043a        0x342
+ .text            0x00043a        0x202 build/default/production/kernel.o
+                  0x00043a                  _os_config
+                  0x000452                  _os_start_scheduler
+                  0x000490                  _create_task
+                  0x0004e2                  _init_stack
+                  0x00054a                  _task_yield
+                  0x000574                  _task_delay
+                  0x0005b0                  _delay_release
+                  0x000634                  _idle
+ .text            0x00063c         0x84 build/default/production/scheduler.o
+                  0x00063c                  _scheduler
+                  0x000644                  _rr_scheduler
+                  0x0006ba                  _prior_scheduler
+ .text            0x0006c0         0x6a build/default/production/user_app.o
+                  0x0006c0                  _tarefa_a
+                  0x0006de                  _tarefa_b
+                  0x0006fe                  _tarefa_c
+                  0x00071e                  _config_user_app
+ .text            0x00072a         0x24 build/default/production/timer.o
+                  0x00072a                  _config_timer_0
+ .text            0x00074e         0x1a build/default/production/main.o
+                  0x00074e                  _main
+ .text            0x000768         0x14 build/default/production/int.o
+                  0x000768                  _config_int0
 
-.dinit            0x000722          0xe
- .dinit           0x000722          0xe data_init
+.dinit            0x00077c          0xe
+ .dinit           0x00077c          0xe data_init

@@ -4,6 +4,8 @@
 #include "os_config.h"
 #include <stdint.h>
 
+//#define IDLE 1
+
 typedef void (*callback)(void);
 
 typedef void TASK;
@@ -21,7 +23,7 @@ typedef struct tcb {
 } tcb_t;
 
 typedef struct queue {
-    tcb_t tasks[MAX_TASKS];
+    tcb_t tasks[MAX_TASKS+1];
     uint8_t queue_size;
 } queue_t;
 

@@ -16,6 +16,8 @@ void os_config(void)
     config_timer_0();
     config_int0();
     config_user_app();
+    
+    create_task(idle, 4);
 }
 
 void os_start_scheduler(void)
@@ -74,8 +76,10 @@ void init_stack(tcb_t *task)
 void task_yield()
 {   
     __builtin_disable_interrupts();
-    ReadyQueue.tasks[task_running].task_state = READY;    
-    CONTEX_SWITCH();
+
+    ReadyQueue.tasks[task_running].task_state = READY;
+    CONTEXT_SWITCH();
+
     __builtin_enable_interrupts();
 }
 
@@ -87,7 +91,7 @@ void task_delay(uint16_t time)
     
     ReadyQueue.tasks[task_running].task_delay = time;
     ReadyQueue.tasks[task_running].task_state = WAITING;
-    CONTEX_SWITCH();
+    CONTEXT_SWITCH();
     
     __builtin_enable_interrupts();
 }
@@ -103,5 +107,13 @@ void delay_release()
                 ReadyQueue.tasks[i].task_state = READY;
             }
         }
+    }
+}
+
+TASK idle()
+{
+    while (1) {
+        asm("NOP");
+        Nop();
     }
 }

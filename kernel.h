@@ -16,6 +16,8 @@ void task_yield();
 void task_delay();
 void delay_release();
 
+TASK idle();
+
 #define SAVE_CONTEXT() \
 do { \
   asm volatile ( \
