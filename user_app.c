@@ -1,12 +1,13 @@
 #include "user_app.h"
 #include "kernel.h"
 #include <xc.h>
+#include "sync.h"
+
 
 TASK tarefa_a(void)
 {
     while (1) {
         LATEbits.LATE0 ^= 1;
-        task_delay(100);
     }
 }
 TASK tarefa_b(void)
@@ -20,7 +21,6 @@ TASK tarefa_c(void)
 {
     while (1) {
         LATEbits.LATE2 ^= 1;
-        task_delay(100);
     }
 }
 
@@ -28,7 +28,7 @@ void config_user_app(void)
 {
     TRISEbits.TRISE0 = 0;
     TRISEbits.TRISE1 = 0;
-    TRISEbits.TRISE2 = 0;    
+    TRISEbits.TRISE2 = 0;
 }
 
 

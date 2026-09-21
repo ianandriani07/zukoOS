@@ -23,7 +23,6 @@ void __attribute__ ((interrupt, no_auto_psv, naked)) _INT0Interrupt()
     
     // Tarefa que está deixando a CPU
     ReadyQueue.tasks[task_running].sp = task_running_tos;
-    //ReadyQueue.tasks[task_running].task_state = READY;
     
     task_running = scheduler();
     

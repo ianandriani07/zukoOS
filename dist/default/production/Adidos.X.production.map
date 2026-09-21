@@ -71,10 +71,10 @@ Default Scalar Model: Small
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
 .text                        0x200               0x23a           0x357  (855)
-.text                        0x43a               0x422           0x633  (1587)
-.dinit                       0x85c                 0xe            0x15  (21)
+.text                        0x43a               0x42c           0x642  (1602)
+.dinit                       0x866                 0xe            0x15  (21)
 
-                 Total "program" memory used (bytes):          0x99f  (2463) 1%
+                 Total "program" memory used (bytes):          0x9ae  (2478) 1%
 
 
 "data" Memory  [Origin = 0x800, Length = 0x2000]
@@ -131,16 +131,16 @@ External Symbols in Program Memory (by address):
                   0x00063c                  _sem_init
                   0x00065a                  _sem_wait
                   0x0006be                  _sem_post
-                  0x00071c                  _scheduler
-                  0x000724                  _rr_scheduler
-                  0x00079a                  _prior_scheduler
-                  0x0007a0                  _tarefa_a
-                  0x0007be                  _tarefa_b
-                  0x0007de                  _tarefa_c
-                  0x0007fe                  _config_user_app
-                  0x00080a                  _config_timer_0
-                  0x00082e                  _main
-                  0x000848                  _config_int0
+                  0x00072e                  _scheduler
+                  0x000736                  _rr_scheduler
+                  0x0007ac                  _prior_scheduler
+                  0x0007b2                  _tarefa_a
+                  0x0007cc                  _tarefa_b
+                  0x0007ec                  _tarefa_c
+                  0x000808                  _config_user_app
+                  0x000814                  _config_timer_0
+                  0x000838                  _main
+                  0x000852                  _config_int0
 
 External Symbols in Program Memory (by name):
 
@@ -151,25 +151,25 @@ External Symbols in Program Memory (by name):
                   0x000252                  __data_init_standard
                   0x00023c                  __psv_init
                   0x000200                  __resetPRI
-                  0x000848                  _config_int0
-                  0x00080a                  _config_timer_0
-                  0x0007fe                  _config_user_app
+                  0x000852                  _config_int0
+                  0x000814                  _config_timer_0
+                  0x000808                  _config_user_app
                   0x000490                  _create_task
                   0x0005b0                  _delay_release
                   0x000634                  _idle
                   0x0004e2                  _init_stack
-                  0x00082e                  _main
+                  0x000838                  _main
                   0x00043a                  _os_config
                   0x000452                  _os_start_scheduler
-                  0x00079a                  _prior_scheduler
-                  0x000724                  _rr_scheduler
-                  0x00071c                  _scheduler
+                  0x0007ac                  _prior_scheduler
+                  0x000736                  _rr_scheduler
+                  0x00072e                  _scheduler
                   0x00063c                  _sem_init
                   0x0006be                  _sem_post
                   0x00065a                  _sem_wait
-                  0x0007a0                  _tarefa_a
-                  0x0007be                  _tarefa_b
-                  0x0007de                  _tarefa_c
+                  0x0007b2                  _tarefa_a
+                  0x0007cc                  _tarefa_b
+                  0x0007ec                  _tarefa_c
                   0x000574                  _task_delay
                   0x00054a                  _task_yield
 
@@ -274,15 +274,15 @@ __CONFIG1
  .debug_abbrev    0x0004da        0x13d build/default/production/int.o
  .debug_abbrev    0x000617         0xe4 build/default/production/sync.o
 
-.debug_line       0x000000        0x703
+.debug_line       0x000000        0x705
  *(.debug_line)
  .debug_line      0x000000         0x37 build/default/production/main.o
  .debug_line      0x000037        0x143 build/default/production/timer.o
  .debug_line      0x00017a        0x168 build/default/production/kernel.o
- .debug_line      0x0002e2         0xa3 build/default/production/scheduler.o
- .debug_line      0x000385        0x119 build/default/production/user_app.o
+ .debug_line      0x0002e2         0xa5 build/default/production/scheduler.o
+ .debug_line      0x000387        0x117 build/default/production/user_app.o
  .debug_line      0x00049e        0x13b build/default/production/int.o
- .debug_line      0x0005d9        0x12a build/default/production/sync.o
+ .debug_line      0x0005d9        0x12c build/default/production/sync.o
 
 .debug_frame      0x000000        0x2ce
  *(.debug_frame)
@@ -985,7 +985,7 @@ __c30_signature
  .ivt._INT0Interrupt
                   0x000014          0x2 build/default/production/int.o
 
-.text             0x00043a        0x422
+.text             0x00043a        0x42c
  .text            0x00043a        0x202 build/default/production/kernel.o
                   0x00043a                  _os_config
                   0x000452                  _os_start_scheduler
@@ -995,25 +995,25 @@ __c30_signature
                   0x000574                  _task_delay
                   0x0005b0                  _delay_release
                   0x000634                  _idle
- .text            0x00063c         0xe0 build/default/production/sync.o
+ .text            0x00063c         0xf2 build/default/production/sync.o
                   0x00063c                  _sem_init
                   0x00065a                  _sem_wait
                   0x0006be                  _sem_post
- .text            0x00071c         0x84 build/default/production/scheduler.o
-                  0x00071c                  _scheduler
-                  0x000724                  _rr_scheduler
-                  0x00079a                  _prior_scheduler
- .text            0x0007a0         0x6a build/default/production/user_app.o
-                  0x0007a0                  _tarefa_a
-                  0x0007be                  _tarefa_b
-                  0x0007de                  _tarefa_c
-                  0x0007fe                  _config_user_app
- .text            0x00080a         0x24 build/default/production/timer.o
-                  0x00080a                  _config_timer_0
- .text            0x00082e         0x1a build/default/production/main.o
-                  0x00082e                  _main
- .text            0x000848         0x14 build/default/production/int.o
-                  0x000848                  _config_int0
+ .text            0x00072e         0x84 build/default/production/scheduler.o
+                  0x00072e                  _scheduler
+                  0x000736                  _rr_scheduler
+                  0x0007ac                  _prior_scheduler
+ .text            0x0007b2         0x62 build/default/production/user_app.o
+                  0x0007b2                  _tarefa_a
+                  0x0007cc                  _tarefa_b
+                  0x0007ec                  _tarefa_c
+                  0x000808                  _config_user_app
+ .text            0x000814         0x24 build/default/production/timer.o
+                  0x000814                  _config_timer_0
+ .text            0x000838         0x1a build/default/production/main.o
+                  0x000838                  _main
+ .text            0x000852         0x14 build/default/production/int.o
+                  0x000852                  _config_int0
 
-.dinit            0x00085c          0xe
- .dinit           0x00085c          0xe data_init
+.dinit            0x000866          0xe
+ .dinit           0x000866          0xe data_init
