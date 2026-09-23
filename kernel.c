@@ -66,9 +66,9 @@ void init_stack(tcb_t *task)
     }
   
     *sp++ = 0x0000; // RCOUNT
-    *sp++ = 0x0000; // TBLPAG
-    *sp++ = 0x0000; // PSVPAG
-    *sp++ = 0x0000; // CORCON
+    *sp++ = TBLPAG; // TBLPAG
+    *sp++ = PSVPAG; // PSVPAG
+    *sp++ = CORCON; // CORCON
     
     task->sp = sp;
 }
