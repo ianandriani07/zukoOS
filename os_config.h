@@ -3,6 +3,7 @@
 
 #define MAX_TASKS           5
 #define MAX_STACK_SIZE      32
+#define SIZE_MESSAGE_QUEUE  4
 
 #define RR_SCHEDULER        1
 #define PRIOR_SCHEDULER     2

@@ -35,5 +35,17 @@ typedef struct sem
     uint8_t s_queue_output;
 } sem_t;
 
+typedef struct mutex {
+    
+} mutex_t;
+
+typedef struct m_queue {
+    char queue[SIZE_MESSAGE_QUEUE];
+    uint8_t pos_write;
+    uint8_t pos_read;
+    sem_t s_write;
+    sem_t s_read;
+} m_queue_t;
+
 #endif	/* TYPES_H */
 

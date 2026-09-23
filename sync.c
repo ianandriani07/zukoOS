@@ -48,3 +48,19 @@ void sem_post(sem_t *s)
     
     __builtin_enable_interrupts();    
 }
+
+
+void mutex_init(mutex_t *m)
+{
+    
+}
+
+void mutex_lock(mutex_t *m)
+{
+    
+}
+
+void mutex_unlock(mutex_t *m)
+{
+    
+}
