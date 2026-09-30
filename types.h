@@ -47,5 +47,10 @@ typedef struct m_queue {
     sem_t s_read;
 } m_queue_t;
 
+typedef struct block_info {
+    uint16_t size;
+    uint8_t free;
+} block_info_t;
+
 #endif	/* TYPES_H */
 

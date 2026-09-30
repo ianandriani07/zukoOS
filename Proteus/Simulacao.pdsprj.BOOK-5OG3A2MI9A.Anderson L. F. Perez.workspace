@@ -103,6 +103,22 @@
    <POPUP w="290" x="57" flags="00000000" y="168" h="195" pid="0" iid="11">
     <PROPERTIES/>
    </POPUP>
+   <POPUP w="12" x="37" flags="0000000a" y="148" h="16" pid="1" iid="10">
+    <PROPERTIES>
+     <ITEM name="DataType">2</ITEM>
+     <ITEM name="DispChars">Yes</ITEM>
+     <ITEM name="DispFormat">2</ITEM>
+     <ITEM name="ShowChanges">Yes</ITEM>
+     <ITEM name="ShowToolTips">Yes</ITEM>
+     <ITEM name="TopLineAddress">00000000</ITEM>
+    </PROPERTIES>
+   </POPUP>
+   <POPUP w="728" x="567" flags="00000022" y="391" h="315" pid="0" iid="8">
+    <PROPERTIES>
+     <ITEM name="AutoEcho">0</ITEM>
+     <ITEM name="HexMode">0</ITEM>
+    </PROPERTIES>
+   </POPUP>
   </PWI>
  </MODULE>
 </WORKSPACE>

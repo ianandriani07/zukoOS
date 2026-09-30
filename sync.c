@@ -25,7 +25,8 @@ void sem_wait(sem_t *s)
     if (s->sem_count < 0) {
         // Bloqueia a tarefa
         s->sem_queue[s->s_queue_input] = task_running;
-        s->s_queue_input = (s->s_queue_input+1) % MAX_TASKS;
+        s->s_queue_input = __builtin_modsd(s->s_queue_input+1, MAX_TASKS);
+        //s->s_queue_input = (s->s_queue_input+1) % MAX_TASKS;
         ReadyQueue.tasks[task_running].task_state = BLOCKED;
         CONTEXT_SWITCH();        
     }
@@ -41,7 +42,8 @@ void sem_post(sem_t *s)
     
     if (s->sem_count <= 0) {
         ReadyQueue.tasks[s->sem_queue[s->s_queue_output]].task_state = READY;
-        s->s_queue_output = (s->s_queue_output+1) % MAX_TASKS;
+        s->s_queue_output = __builtin_modsd(s->s_queue_output+1, MAX_TASKS);
+        //s->s_queue_output = (s->s_queue_output+1) % MAX_TASKS;
         ReadyQueue.tasks[task_running].task_state = READY;
         CONTEXT_SWITCH(); 
     }

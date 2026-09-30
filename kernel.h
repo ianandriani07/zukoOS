@@ -36,14 +36,10 @@ do { \
     "PUSH W12 \n" \
     "PUSH W13 \n" \
     "PUSH W14 \n" \
-    "MOV RCOUNT, W0 \n" \
-    "PUSH W0 \n" \
-    "MOV TBLPAG, W0 \n" \
-    "PUSH W0 \n" \
-    "MOV PSVPAG, W0 \n" \
-    "PUSH W0 \n" \
-    "MOV CORCON, W0 \n" \
-    "PUSH W0 \n" \
+    "PUSH RCOUNT \n" \
+    "PUSH TBLPAG \n" \
+    "PUSH PSVPAG \n" \
+    "PUSH CORCON \n" \
     "MOV W15, _task_running_tos \n" \
   ); \
 } while(0)
@@ -52,14 +48,10 @@ do { \
 do { \
   asm volatile ( \
     "MOV _task_running_tos, W15 \n" \
-    "POP W0 \n" \
-    "MOV W0, CORCON \n" \
-    "POP W0 \n" \
-    "MOV W0, PSVPAG \n" \
-    "POP W0 \n" \
-    "MOV W0, TBLPAG \n" \
-    "POP W0 \n" \
-    "MOV W0, RCOUNT \n" \
+    "POP CORCON \n" \
+    "POP PSVPAG \n" \
+    "POP TBLPAG \n" \
+    "POP RCOUNT \n" \
     "POP W14 \n" \
     "POP W13 \n" \
     "POP W12 \n" \

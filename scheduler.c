@@ -24,8 +24,8 @@ uint8_t rr_scheduler()
     uint8_t next_task = task_running, idle_count = 0;
     
     do {
-        next_task = (next_task+1) % ReadyQueue.queue_size;
-        //next_task = __builtin_modsd(next_task+1, ReadyQueue.queue_size);
+        //next_task = (next_task+1) % ReadyQueue.queue_size;
+        next_task = __builtin_modsd(next_task+1, ReadyQueue.queue_size);
         
         if (ReadyQueue.tasks[next_task].task_func == idle) {
             idle_count++;
