@@ -4,6 +4,7 @@
 #include "timer.h"
 #include "int.h"
 #include <xc.h>
+#include "mem.h"
 
 // Variáveis globais
 queue_t ReadyQueue;
@@ -16,6 +17,10 @@ void os_config(void)
     config_timer_0();
     config_int0();
     config_user_app();
+    
+    #if DYNAMIC_ALLOCATION == ON
+    os_heap_init();
+    #endif
     
     create_task(idle, 4);
 }

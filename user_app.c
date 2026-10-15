@@ -3,7 +3,8 @@
 #include "kernel.h"
 #include "sync.h"
 #include "message.h"
-#include "io.h"
+#include "uart.h"
+#include "pwm.h"
 
 
 m_queue_t fila_m;
@@ -23,9 +24,21 @@ TASK tarefa_a(void)
 
 TASK tarefa_b(void)
 {
+    pwm_driver_t pwm;
+   
+    pwm_config(&pwm, 1000);
+    pwm_start(&pwm);
+    
+    pwm_set_duty(&pwm, 100);
+    
+   
     while (1) {
         LATEbits.LATE1 ^= 1;
+        UART_write_new_line("Tarefa b executando ...");
     }
+    
+    pwm_stop(&pwm);
+    
 }
 
 TASK tarefa_c(void)
@@ -44,5 +57,6 @@ void config_user_app(void)
     TRISEbits.TRISE1 = 0;
     TRISEbits.TRISE2 = 0;
     TRISFbits.TRISF3 = 0;
-    m_queue_init(&fila_m);
+    //m_queue_init(&fila_m);
+    UART_init(9600);
 }

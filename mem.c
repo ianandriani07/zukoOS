@@ -3,11 +3,13 @@
 #include "types.h"
 #include <stdio.h>
 
-char heap_mem[HEAP_SIZE];
+
+uint8_t heap_mem[HEAP_SIZE];
+
 
 void os_heap_init(void)
 {
-    block_info_t *blk_info = (block_info_t *)&heap_mem[0];
+    block_info_t *blk_info = (block_info_t *)heap_mem;
 
     blk_info->size = HEAP_SIZE - sizeof(block_info_t);
     blk_info->free = 1;
@@ -64,5 +66,3 @@ void os_free(void *address)
 
     blk_info->free = 1;
 }
-
-

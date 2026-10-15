@@ -1,5 +1,5 @@
 build/default/production/user_app.o: user_app.c user_app.h types.h \
- os_config.h kernel.h sync.h message.h io.h
+ os_config.h kernel.h sync.h message.h uart.h pwm.h
 
 user_app.h:
 
@@ -13,4 +13,6 @@ sync.h:
 
 message.h:
 
-io.h:
+uart.h:
+
+pwm.h:

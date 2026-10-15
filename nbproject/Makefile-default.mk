@@ -51,17 +51,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=main.c timer.c kernel.c scheduler.c user_app.c int.c sync.c message.c io.c mem.c
+SOURCEFILES_QUOTED_IF_SPACED=main.c timer.c kernel.c scheduler.c user_app.c int.c sync.c message.c mem.c pwm.c uart.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/timer.o ${OBJECTDIR}/kernel.o ${OBJECTDIR}/scheduler.o ${OBJECTDIR}/user_app.o ${OBJECTDIR}/int.o ${OBJECTDIR}/sync.o ${OBJECTDIR}/message.o ${OBJECTDIR}/io.o ${OBJECTDIR}/mem.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/main.o.d ${OBJECTDIR}/timer.o.d ${OBJECTDIR}/kernel.o.d ${OBJECTDIR}/scheduler.o.d ${OBJECTDIR}/user_app.o.d ${OBJECTDIR}/int.o.d ${OBJECTDIR}/sync.o.d ${OBJECTDIR}/message.o.d ${OBJECTDIR}/io.o.d ${OBJECTDIR}/mem.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/timer.o ${OBJECTDIR}/kernel.o ${OBJECTDIR}/scheduler.o ${OBJECTDIR}/user_app.o ${OBJECTDIR}/int.o ${OBJECTDIR}/sync.o ${OBJECTDIR}/message.o ${OBJECTDIR}/mem.o ${OBJECTDIR}/pwm.o ${OBJECTDIR}/uart.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/main.o.d ${OBJECTDIR}/timer.o.d ${OBJECTDIR}/kernel.o.d ${OBJECTDIR}/scheduler.o.d ${OBJECTDIR}/user_app.o.d ${OBJECTDIR}/int.o.d ${OBJECTDIR}/sync.o.d ${OBJECTDIR}/message.o.d ${OBJECTDIR}/mem.o.d ${OBJECTDIR}/pwm.o.d ${OBJECTDIR}/uart.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/timer.o ${OBJECTDIR}/kernel.o ${OBJECTDIR}/scheduler.o ${OBJECTDIR}/user_app.o ${OBJECTDIR}/int.o ${OBJECTDIR}/sync.o ${OBJECTDIR}/message.o ${OBJECTDIR}/io.o ${OBJECTDIR}/mem.o
+OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/timer.o ${OBJECTDIR}/kernel.o ${OBJECTDIR}/scheduler.o ${OBJECTDIR}/user_app.o ${OBJECTDIR}/int.o ${OBJECTDIR}/sync.o ${OBJECTDIR}/message.o ${OBJECTDIR}/mem.o ${OBJECTDIR}/pwm.o ${OBJECTDIR}/uart.o
 
 # Source Files
-SOURCEFILES=main.c timer.c kernel.c scheduler.c user_app.c int.c sync.c message.c io.c mem.c
+SOURCEFILES=main.c timer.c kernel.c scheduler.c user_app.c int.c sync.c message.c mem.c pwm.c uart.c
 
 
 
@@ -137,17 +137,23 @@ ${OBJECTDIR}/message.o: message.c  .generated_files/flags/default/9e8716c0c82603
 	@${RM} ${OBJECTDIR}/message.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  message.c  -o ${OBJECTDIR}/message.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/message.o.d"      -g -D__DEBUG     -omf=elf -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/io.o: io.c  .generated_files/flags/default/77fb69a9023db6e827b5d211ff81f32a5448e4f1 .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
-	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/io.o.d 
-	@${RM} ${OBJECTDIR}/io.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  io.c  -o ${OBJECTDIR}/io.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/io.o.d"      -g -D__DEBUG     -omf=elf -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
-	
 ${OBJECTDIR}/mem.o: mem.c  .generated_files/flags/default/b8f48878d65c0a3d12844303cd3891c2d3b30bb9 .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/mem.o.d 
 	@${RM} ${OBJECTDIR}/mem.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  mem.c  -o ${OBJECTDIR}/mem.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/mem.o.d"      -g -D__DEBUG     -omf=elf -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
+	
+${OBJECTDIR}/pwm.o: pwm.c  .generated_files/flags/default/b4a5914cbf64fefe4942002b8d78e58c5d91f10 .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/pwm.o.d 
+	@${RM} ${OBJECTDIR}/pwm.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  pwm.c  -o ${OBJECTDIR}/pwm.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/pwm.o.d"      -g -D__DEBUG     -omf=elf -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
+	
+${OBJECTDIR}/uart.o: uart.c  .generated_files/flags/default/8ae57772c78bc86eb70e4564f70a8f8bbcad5b40 .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/uart.o.d 
+	@${RM} ${OBJECTDIR}/uart.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  uart.c  -o ${OBJECTDIR}/uart.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/uart.o.d"      -g -D__DEBUG     -omf=elf -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
 else
 ${OBJECTDIR}/main.o: main.c  .generated_files/flags/default/400a4ef7f58f407aa7b21df6a4a5e7f0d5201766 .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
@@ -198,17 +204,23 @@ ${OBJECTDIR}/message.o: message.c  .generated_files/flags/default/f677aa3a6114da
 	@${RM} ${OBJECTDIR}/message.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  message.c  -o ${OBJECTDIR}/message.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/message.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/io.o: io.c  .generated_files/flags/default/dc790ce97e15ec457d35cdb0054684f87700ba9f .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
-	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/io.o.d 
-	@${RM} ${OBJECTDIR}/io.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  io.c  -o ${OBJECTDIR}/io.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/io.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
-	
 ${OBJECTDIR}/mem.o: mem.c  .generated_files/flags/default/8c201d267b35d7bd06b36b7c99f2d2cbdae9e4f5 .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/mem.o.d 
 	@${RM} ${OBJECTDIR}/mem.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  mem.c  -o ${OBJECTDIR}/mem.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/mem.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
+	
+${OBJECTDIR}/pwm.o: pwm.c  .generated_files/flags/default/f26f2eb113a72b72bf84e8acf10339b5de81b08f .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/pwm.o.d 
+	@${RM} ${OBJECTDIR}/pwm.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  pwm.c  -o ${OBJECTDIR}/pwm.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/pwm.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
+	
+${OBJECTDIR}/uart.o: uart.c  .generated_files/flags/default/b9299ebc382b94e3dc784a3dfa160f2dfe02b091 .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/uart.o.d 
+	@${RM} ${OBJECTDIR}/uart.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  uart.c  -o ${OBJECTDIR}/uart.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/uart.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
 endif
 
