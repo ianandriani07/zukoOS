@@ -22,7 +22,7 @@ void os_config(void)
     os_heap_init();
     #endif
     
-    create_task(idle, 4);
+    create_task(idle, 0);
 }
 
 void os_start_scheduler(void)
@@ -35,6 +35,7 @@ void os_start_scheduler(void)
 void create_task(callback task, uint8_t prior)
 {
     tcb_t *new_task = &ReadyQueue.tasks[ReadyQueue.queue_size];
+    ReadyQueue.ordered_tasks[ReadyQueue.queue_size] = ReadyQueue.queue_size;
     
     // Preencher a tcb
     new_task->task_id       = ReadyQueue.queue_size+1;

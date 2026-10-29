@@ -24,6 +24,7 @@ typedef struct tcb {
 
 typedef struct queue {
     tcb_t tasks[MAX_TASKS+1];
+    uint8_t ordered_tasks[MAX_TASKS+1];
     uint8_t queue_size;
 } queue_t;
 
