@@ -1,0 +1,11 @@
+# MPLAB X - Arquivos gerados
+/build/
+/dist/
+/.generated_files/
+
+# Configurações locais
+/nbproject/private/
+
+# Makefiles gerados pelo MPLAB X
+/nbproject/Makefile-*.mk
+/nbproject/Makefile-genesis.properties
