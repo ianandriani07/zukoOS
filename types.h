@@ -36,7 +36,11 @@ typedef struct sem
 } sem_t;
 
 typedef struct mutex {
-    
+    uint8_t owner;
+    uint8_t queue[MAX_TASKS];
+    uint8_t queue_input;
+    uint8_t queue_output;
+    uint8_t queue_count;
 } mutex_t;
 
 typedef struct m_queue {

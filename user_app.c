@@ -8,17 +8,20 @@
 
 
 m_queue_t fila_m;
+mutex_t mutex_teste;
 
 TASK tarefa_a(void)
 {
-    char letras[4] = {'a', 'b', 'c', 'd'};
-    int index = 0;
+    //char letras[4] = {'a', 'b', 'c', 'd'};
+    //int index = 0;
     
     while (1) {
-        LATEbits.LATE0 ^= 1;
-        m_queue_write(&fila_m, letras[index]);
-        index++;
-        if (index == 4) index = 0;        
+        mutex_lock(&mutex_teste);
+        LATEbits.LATE0 = 1;
+        task_delay(250);
+        LATEbits.LATE0 = 0;
+        mutex_unlock(&mutex_teste);
+        task_delay(250);      
     }
 }
 
@@ -33,8 +36,14 @@ TASK tarefa_b(void)
     
    
     while (1) {
-        LATEbits.LATE1 ^= 1;
-        UART_write_new_line("Tarefa b executando ...");
+        LATEbits.LATE2 ^= 1;
+        mutex_lock(&mutex_teste);
+        mutex_lock(&mutex_teste);
+        LATEbits.LATE1 = 1;
+        task_delay(100);
+        LATEbits.LATE1 = 0;
+        mutex_unlock(&mutex_teste);
+        task_delay(100);
     }
     
     pwm_stop(&pwm);
@@ -57,6 +66,7 @@ void config_user_app(void)
     TRISEbits.TRISE1 = 0;
     TRISEbits.TRISE2 = 0;
     TRISFbits.TRISF3 = 0;
-    //m_queue_init(&fila_m);
+    m_queue_init(&fila_m);
+    mutex_init(&mutex_teste);
     UART_init(9600);
 }
