@@ -7,8 +7,9 @@ int main()
     os_config();
     
     // Cria as tarefas de usuário
-    create_task(tarefa_a, 5);
-    create_task(tarefa_b, 5);
+    create_task(tarefa_a, 1);
+    create_task(tarefa_b, 2);
+    create_task(tarefa_c, 3);
     //create_task(tarefa_c, 5);
     
     // Inicializa o escalonador

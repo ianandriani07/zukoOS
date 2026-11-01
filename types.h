@@ -15,6 +15,7 @@ typedef enum {READY = 0, RUNNING, WAITING, BLOCKED} state_t;
 typedef struct tcb {
     uint8_t task_id;
     uint8_t task_prior;
+    uint8_t task_base_prior;
     uint16_t task_delay;
     callback task_func;
     state_t task_state;

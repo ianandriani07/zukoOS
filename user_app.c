@@ -9,54 +9,61 @@
 
 m_queue_t fila_m;
 mutex_t mutex_teste;
+extern queue_t ReadyQueue;
+volatile uint8_t b_recebeu_mutex = 0;
 
 TASK tarefa_a(void)
 {
-    //char letras[4] = {'a', 'b', 'c', 'd'};
-    //int index = 0;
-    
+    mutex_lock(&mutex_teste);
+    LATEbits.LATE0 = 1;
+
+    for (volatile uint32_t i = 0; i < 2000000UL; i++) {
+        Nop();
+    }
+
+    LATEbits.LATE0 = 0;
+    mutex_unlock(&mutex_teste);
+
     while (1) {
-        mutex_lock(&mutex_teste);
-        LATEbits.LATE0 = 1;
-        task_delay(250);
-        LATEbits.LATE0 = 0;
-        mutex_unlock(&mutex_teste);
-        task_delay(250);      
+        task_delay(100);
     }
 }
 
 TASK tarefa_b(void)
 {
-    pwm_driver_t pwm;
-   
-    pwm_config(&pwm, 1000);
-    pwm_start(&pwm);
-    
-    pwm_set_duty(&pwm, 100);
-    
-   
-    while (1) {
-        LATEbits.LATE2 ^= 1;
-        mutex_lock(&mutex_teste);
-        mutex_lock(&mutex_teste);
+    task_delay(50);
+
+    mutex_lock(&mutex_teste);
+
+    b_recebeu_mutex = 1;
+
+    if (ReadyQueue.tasks[2].task_prior == 3 &&
+        mutex_teste.queue_count > 0 &&
+        mutex_teste.queue[mutex_teste.queue_output] == 3) {
         LATEbits.LATE1 = 1;
-        task_delay(100);
-        LATEbits.LATE1 = 0;
-        mutex_unlock(&mutex_teste);
+    }
+
+    mutex_unlock(&mutex_teste);
+
+    while (1) {
         task_delay(100);
     }
-    
-    pwm_stop(&pwm);
-    
 }
 
 TASK tarefa_c(void)
 {
-    char letra;
-    
+    task_delay(100);
+
+    mutex_lock(&mutex_teste);
+
+    if (b_recebeu_mutex == 1) {
+        LATEbits.LATE2 = 1;
+    }
+
+    mutex_unlock(&mutex_teste);
+
     while (1) {
-        LATEbits.LATE2 ^= 1;        
-        m_queue_read(&fila_m, &letra);
+        task_delay(100);
     }
 }
 

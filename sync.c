@@ -69,6 +69,13 @@ void mutex_lock(mutex_t *m)
     }
     
     else if (m->owner != task_running) {
+        if (ReadyQueue.tasks[task_running].task_prior >
+            ReadyQueue.tasks[m->owner].task_prior) {
+            
+            ReadyQueue.tasks[m->owner].task_prior = 
+                    ReadyQueue.tasks[task_running].task_prior;
+            
+        }
         m->queue[m->queue_input] = task_running;
         m->queue_input = __builtin_modsd(m->queue_input+1, MAX_TASKS);
         m->queue_count++;
@@ -85,15 +92,33 @@ void mutex_unlock(mutex_t *m)
     
     if (m->owner == task_running) {
         if (m->queue_count == 0) {
+            ReadyQueue.tasks[m->owner].task_prior = 
+                   ReadyQueue.tasks[m->owner].task_base_prior;
             m->owner = UINT8_MAX;
         }
         
         else {
-           uint8_t proxima_tarefa = m->queue[m->queue_output];
-           m->owner = proxima_tarefa;
-           ReadyQueue.tasks[proxima_tarefa].task_state = READY;
-           m->queue_output = __builtin_modsd(m->queue_output+1, MAX_TASKS);
-           m->queue_count--;
+            uint8_t proxima_tarefa = m->queue[m->queue_output];
+            ReadyQueue.tasks[m->owner].task_prior = 
+                    ReadyQueue.tasks[m->owner].task_base_prior;
+            m->owner = proxima_tarefa;
+            ReadyQueue.tasks[proxima_tarefa].task_state = READY;
+            m->queue_output = __builtin_modsd(m->queue_output+1, MAX_TASKS);
+            m->queue_count--;
+            
+            uint8_t pos = m->queue_output;
+           
+            for (uint8_t i = 0; i < m->queue_count; i++) {
+                uint8_t tarefa_aguardando = m->queue[pos];
+                pos = __builtin_modsd(pos + 1, MAX_TASKS);
+                
+                if ( ReadyQueue.tasks[tarefa_aguardando].task_prior >
+                    ReadyQueue.tasks[m->owner].task_prior) {
+
+                    ReadyQueue.tasks[m->owner].task_prior = 
+                            ReadyQueue.tasks[tarefa_aguardando].task_prior;
+                }
+            }
        }   
     }
     __builtin_enable_interrupts();
