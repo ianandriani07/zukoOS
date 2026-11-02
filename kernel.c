@@ -13,14 +13,14 @@ uint16_t *task_running_tos = NULL;
 
 void os_config(void)
 {
+    #if DYNAMIC_ALLOCATION == ON
+      os_heap_init();
+    #endif
+
     ReadyQueue.queue_size   = 0;
     config_timer_0();
     config_int0();
     config_user_app();
-    
-    #if DYNAMIC_ALLOCATION == ON
-    os_heap_init();
-    #endif
     
     create_task(idle, 0);
 }

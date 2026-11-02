@@ -1,100 +1,104 @@
-#include "mem.h" 
+#include "mem.h"
 #include "os_config.h"
 #include "types.h"
-#include <stdio.h>
 #include <builtins.h>
-
+#include <stdint.h>
+#include <stdio.h>
 
 uint8_t heap_mem[HEAP_SIZE];
 
+void os_heap_init(void) {
+  block_info_t *blk_info = (block_info_t *)heap_mem;
 
-void os_heap_init(void)
-{
-    block_info_t *blk_info = (block_info_t *)heap_mem;
-
-    blk_info->size = HEAP_SIZE - sizeof(block_info_t);
-    blk_info->free = 1;
+  blk_info->size = HEAP_SIZE - sizeof(block_info_t);
+  blk_info->free = 1;
 }
 
-void merge_blocks() 
-{
-    uint8_t *heap_ptr = heap_mem;
-    uint8_t *heap_end = heap_mem + HEAP_SIZE;
+void merge_blocks() {
+  uint8_t *heap_ptr = heap_mem;
+  uint8_t *heap_end = heap_mem + HEAP_SIZE;
 
-    while (heap_ptr + sizeof (block_info_t) <= heap_end) {
-        block_info_t *current = (block_info_t *) heap_ptr;
-        uint8_t *next_ptr = heap_ptr + sizeof (block_info_t) + current->size;
+  while (heap_ptr + sizeof(block_info_t) <= heap_end) {
+    block_info_t *current = (block_info_t *)heap_ptr;
+    uint8_t *next_ptr = heap_ptr + sizeof(block_info_t) + current->size;
 
-        if (next_ptr + sizeof (block_info_t) > heap_end) {
-            return;
-        }
-
-        block_info_t *next = (block_info_t *) next_ptr;
-
-        if (current->free && next->free) {
-            current->size += sizeof (block_info_t) + next->size;
-            continue;
-        }
-
-        heap_ptr = next_ptr;
+    if (next_ptr + sizeof(block_info_t) > heap_end) {
+      return;
     }
+
+    block_info_t *next = (block_info_t *)next_ptr;
+
+    if (current->free && next->free) {
+      current->size += sizeof(block_info_t) + next->size;
+      continue;
+    }
+
+    heap_ptr = next_ptr;
+  }
 }
 
-void *os_malloc(uint16_t nr_bytes)
-{
-    if (nr_bytes == 0)
-        return NULL;
-    
-    __builtin_disable_interrupts();
-    merge_blocks();
-    
-    uint8_t *heap_ptr   = heap_mem;
-    uint8_t *heap_end   = heap_mem + HEAP_SIZE;
-
-    while (heap_ptr + sizeof(block_info_t) <= heap_end) {
-        block_info_t *blk_info = (block_info_t *)heap_ptr;
-
-        // Verifica se o bloco é grande o suficiente para a nova alocação
-        if (blk_info->free && blk_info->size >= nr_bytes) {
-
-            uint16_t remaining = blk_info->size - nr_bytes;
-
-            // Verifica se é possível criar um novo bloco
-            if (remaining > sizeof(block_info_t)) {
-
-                block_info_t *new_blk_info = (block_info_t *)(heap_ptr + sizeof(block_info_t) + nr_bytes);
-                new_blk_info->size = remaining - sizeof(block_info_t);
-                new_blk_info->free = 1;
-
-                blk_info->size = nr_bytes;
-            }
-
-            // Marca o bloco como ocupado
-            blk_info->free = 0;
-
-            // Retorna somente a área de dados
-            __builtin_enable_interrupts();
-            return heap_ptr + sizeof(block_info_t);
-        }
-
-        // Passa para o próximo bloco
-        heap_ptr += sizeof(block_info_t) + blk_info->size;
-    }
-
-    // Não encontrou espaço
-    __builtin_enable_interrupts();
+void *os_malloc_unsafe(uint16_t nr_bytes) {
+  if (nr_bytes == 0)
     return NULL;
+
+  merge_blocks();
+
+  uint8_t *heap_ptr = heap_mem;
+  uint8_t *heap_end = heap_mem + HEAP_SIZE;
+
+  while (heap_ptr + sizeof(block_info_t) <= heap_end) {
+    block_info_t *blk_info = (block_info_t *)heap_ptr;
+
+    // Verifica se o bloco é grande o suficiente para a nova alocação
+    if (blk_info->free && blk_info->size >= nr_bytes) {
+
+      uint16_t remaining = blk_info->size - nr_bytes;
+
+      // Verifica se é possível criar um novo bloco
+      if (remaining > sizeof(block_info_t)) {
+
+        block_info_t *new_blk_info =
+            (block_info_t *)(heap_ptr + sizeof(block_info_t) + nr_bytes);
+        new_blk_info->size = remaining - sizeof(block_info_t);
+        new_blk_info->free = 1;
+
+        blk_info->size = nr_bytes;
+      }
+
+      // Marca o bloco como ocupado
+      blk_info->free = 0;
+
+      // Retorna somente a área de dados
+      return heap_ptr + sizeof(block_info_t);
+    }
+
+    // Passa para o próximo bloco
+    heap_ptr += sizeof(block_info_t) + blk_info->size;
+  }
+
+  // Não encontrou espaço
+  return NULL;
 }
 
-void os_free(void *address)
-{
-    if (address == NULL)
-        return;
-    
-    __builtin_disable_interrupts();
-    
-    block_info_t *blk_info = (block_info_t *)((uint8_t *)address - sizeof(block_info_t));
-    blk_info->free = 1;
-    
-    __builtin_enable_interrupts();
+void *os_malloc(uint16_t nr_bytes) {
+  __builtin_disable_interrupts();
+  void *output = os_malloc_unsafe(nr_bytes);
+  __builtin_enable_interrupts();
+
+  return output;
+}
+
+void os_free_unsafe(void *address) {
+  if (address == NULL)
+    return;
+
+  block_info_t *blk_info =
+      (block_info_t *)((uint8_t *)address - sizeof(block_info_t));
+  blk_info->free = 1;
+}
+
+void os_free(void *address) {
+  __builtin_disable_interrupts();
+  os_free_unsafe(address);
+  __builtin_enable_interrupts();
 }
