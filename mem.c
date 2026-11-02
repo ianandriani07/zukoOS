@@ -2,6 +2,7 @@
 #include "os_config.h"
 #include "types.h"
 #include <stdio.h>
+#include <builtins.h>
 
 
 uint8_t heap_mem[HEAP_SIZE];
@@ -15,16 +16,42 @@ void os_heap_init(void)
     blk_info->free = 1;
 }
 
+void merge_blocks() 
+{
+    uint8_t *heap_ptr = heap_mem;
+    uint8_t *heap_end = heap_mem + HEAP_SIZE;
+
+    while (heap_ptr + sizeof (block_info_t) <= heap_end) {
+        block_info_t *current = (block_info_t *) heap_ptr;
+        uint8_t *next_ptr = heap_ptr + sizeof (block_info_t) + current->size;
+
+        if (next_ptr + sizeof (block_info_t) > heap_end) {
+            return;
+        }
+
+        block_info_t *next = (block_info_t *) next_ptr;
+
+        if (current->free && next->free) {
+            current->size += sizeof (block_info_t) + next->size;
+            continue;
+        }
+
+        heap_ptr = next_ptr;
+    }
+}
+
 void *os_malloc(uint16_t nr_bytes)
 {
+    if (nr_bytes == 0)
+        return NULL;
+    
+    __builtin_disable_interrupts();
+    merge_blocks();
+    
     uint8_t *heap_ptr   = heap_mem;
     uint8_t *heap_end   = heap_mem + HEAP_SIZE;
 
-    if (nr_bytes == 0)
-        return NULL;
-
     while (heap_ptr + sizeof(block_info_t) <= heap_end) {
-
         block_info_t *blk_info = (block_info_t *)heap_ptr;
 
         // Verifica se o bloco é grande o suficiente para a nova alocação
@@ -46,6 +73,7 @@ void *os_malloc(uint16_t nr_bytes)
             blk_info->free = 0;
 
             // Retorna somente a área de dados
+            __builtin_enable_interrupts();
             return heap_ptr + sizeof(block_info_t);
         }
 
@@ -54,6 +82,7 @@ void *os_malloc(uint16_t nr_bytes)
     }
 
     // Não encontrou espaço
+    __builtin_enable_interrupts();
     return NULL;
 }
 
@@ -61,8 +90,11 @@ void os_free(void *address)
 {
     if (address == NULL)
         return;
-
+    
+    __builtin_disable_interrupts();
+    
     block_info_t *blk_info = (block_info_t *)((uint8_t *)address - sizeof(block_info_t));
-
     blk_info->free = 1;
+    
+    __builtin_enable_interrupts();
 }
