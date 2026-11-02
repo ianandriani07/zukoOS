@@ -73,7 +73,7 @@ void config_user_app(void)
     TRISEbits.TRISE1 = 0;
     TRISEbits.TRISE2 = 0;
     TRISFbits.TRISF3 = 0;
-    m_queue_init(&fila_m);
+    m_queue_init(&fila_m, 32);
     mutex_init(&mutex_teste);
     UART_init(9600);
 }

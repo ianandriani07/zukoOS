@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-void m_queue_init(m_queue_t *queue);
+int m_queue_init(m_queue_t *queue, uint8_t size);
 void m_queue_write(m_queue_t *queue, char msg);
 void m_queue_read(m_queue_t *queue, char *msg);
 

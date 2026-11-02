@@ -28,7 +28,7 @@ typedef struct queue {
     uint8_t ordered_tasks[MAX_TASKS+1];
     uint8_t queue_size;
 } queue_t;
-
+  
 typedef struct sem
 {
     uint8_t sem_queue[MAX_TASKS];
@@ -45,13 +45,26 @@ typedef struct mutex {
     uint8_t queue_count;
 } mutex_t;
 
+#if DYNAMIC_ALLOCATION == ON
 typedef struct m_queue {
-    char queue[SIZE_MESSAGE_QUEUE];
+    char* queue;
+    uint8_t size;
     uint8_t pos_write;
     uint8_t pos_read;
     sem_t s_write;
     sem_t s_read;
 } m_queue_t;
+#else
+typedef struct m_queue {
+    char queue[SIZE_MESSAGE_QUEUE];
+    uint8_t size;
+    uint8_t pos_write;
+    uint8_t pos_read;
+    sem_t s_write;
+    sem_t s_read;
+} m_queue_t;
+#endif
+
 
 typedef struct block_info {
     uint16_t size;
