@@ -10,6 +10,9 @@ void pwm_config(pwm_driver_t *pwm, uint16_t frequencia)
     pwm->ciclo      = 0;
     pwm->status     = false;
     
+    // Configura RD0/OC1 como saída para o sinal PWM
+    TRISDbits.TRISD0 = 0;
+    
     // Configuração de hardware
     OC1CON            = 0;    
     T2CON             = 0;
