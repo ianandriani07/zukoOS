@@ -5,75 +5,69 @@
 #include "message.h"
 #include "uart.h"
 #include "pwm.h"
+#include "uart.h"
+#include "adc.h"
 
+typedef enum {
+    FINE = 0,
+    NOT_FINE = 1,
+    SCRAM = 2
+} state_t;
 
-m_queue_t fila_m;
-mutex_t mutex_teste;
-extern queue_t ReadyQueue;
-volatile uint8_t b_recebeu_mutex = 0;
+static const char *state_name[] = { "NORMAL", "ALERTA", "SCRAM" };
 
-TASK tarefa_a(void)
+volatile state_t state = FINE;
+volatile uint8_t temperature = 0;
+
+sem_t scram_sem;
+mutex_t state_mutex;
+mutex_t uart_mutex;
+
+m_queue_t temp_queue;
+
+pwm_driver_t pump_driver;
+
+TASK task_scram() 
 {
-    mutex_lock(&mutex_teste);
-    LATEbits.LATE0 = 1;
+    sem_wait(&scram_sem);
+    LATEbits.LATE2 = 1; 
+    
+    pwm_set_duty(&pump_driver, 100);
+    
+    mutex_lock(&state_mutex);
+    state = SCRAM;
+    mutex_unlock(&state_mutex);
+    
+    mutex_lock(&uart_mutex);
+    LATEbits.LATE3 = 1;
+    UART_write_new_line("SCRAM: desligamento de emergencia iniciado... Fodeu!");
+    mutex_unlock(&uart_mutex);
 
-    for (volatile uint32_t i = 0; i < 2000000UL; i++) {
-        Nop();
-    }
-
-    LATEbits.LATE0 = 0;
-    mutex_unlock(&mutex_teste);
-
-    while (1) {
-        task_delay(100);
-    }
+    while (1) task_delay(250);
 }
 
-TASK tarefa_b(void)
+TASK task_read_temp()
 {
-    task_delay(50);
-
-    mutex_lock(&mutex_teste);
-
-    b_recebeu_mutex = 1;
-
-    if (ReadyQueue.tasks[2].task_prior == 3 &&
-        mutex_teste.queue_count > 0 &&
-        mutex_teste.queue[mutex_teste.queue_output] == 3) {
-        LATEbits.LATE1 = 1;
-    }
-
-    mutex_unlock(&mutex_teste);
-
     while (1) {
-        task_delay(100);
-    }
-}
-
-TASK tarefa_c(void)
-{
-    task_delay(100);
-
-    mutex_lock(&mutex_teste);
-
-    if (b_recebeu_mutex == 1) {
-        LATEbits.LATE2 = 1;
-    }
-
-    mutex_unlock(&mutex_teste);
-
-    while (1) {
-        task_delay(100);
+        uint16_t raw = adc_read();
+        char downcast = (char)(raw >> 2); // This should change almost nothing
+        m_queue_write(&temp_queue, downcast);
+        task_delay(25); // 100ms
     }
 }
 
 void config_user_app(void)
-{
-    TRISEbits.TRISE0 = 0;
-    TRISEbits.TRISE1 = 0;
-    TRISEbits.TRISE2 = 0;
-    TRISFbits.TRISF3 = 0;
-    m_queue_init(&fila_m, 32);
-    mutex_init(&mutex_teste);
+{   
+    sem_init(scram_sem, 0);
+    mutex_init(&state_mutex);
+    mutex_init(&uart_mutex);
+    
+    pwm_config(&pump_driver, FREQ);
+    pwm_start(&pump_driver);
+    
+    adc_init();
+    
+    m_queue_init(&temp_queue, 8);
+    
     UART_init(9600);
 }
