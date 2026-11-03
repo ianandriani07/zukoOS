@@ -3,9 +3,13 @@
 
 #include "types.h"
 
-TASK tarefa_a(void);
-TASK tarefa_b(void);
-TASK tarefa_c(void);
+TASK task_scram(void);
+TASK task_read_temp(void);
+TASK task_control(void);
+TASK task_alarm(void);
+TASK task_diagA(void);
+TASK task_diagB(void);
+TASK task_panel(void);
 
 void config_user_app(void);
 
