@@ -25,6 +25,12 @@ volatile reactor_state_t state = FINE;
 volatile uint8_t temperature = 0;
 
 sem_t scram_sem;
+#if DEMO_HERANCA == ON
+static sem_t demo_sem;
+
+extern queue_t ReadyQueue;
+extern uint8_t task_running;
+#endif
 mutex_t state_mutex;
 mutex_t uart_mutex;
 
@@ -37,7 +43,7 @@ TASK task_scram(void)
     sem_wait(&scram_sem);
     LATEbits.LATE2 = 1; 
     
-    pwm_set_duty(&pump_driver, 100);
+    pwm_set_duty(&pump_driver, 99);
     
     mutex_lock(&state_mutex);
     state = SCRAM;
@@ -82,7 +88,13 @@ TASK task_control(void)
 
         if (t >= CRITICAL_THRESHOLD || button_is_pressed) {
             we_fucked = true;
+
+        #if DEMO_HERANCA == ON
+            sem_post(&demo_sem);
+        #else
             sem_post(&scram_sem);
+        #endif
+
             continue;
         }
 
@@ -129,8 +141,89 @@ TASK task_diagB(void)
     }
 }
 
+#if DEMO_HERANCA == ON
+static void demo_heranca(void)
+{
+    uint8_t painel = task_running;
+    volatile tcb_t *tcb = &ReadyQueue.tasks[painel];
+
+    uint8_t antes;
+    uint8_t durante;
+    uint8_t depois;
+    uint8_t esperando;
+    uint8_t dono_correto;
+
+    mutex_lock(&uart_mutex);
+    LATEbits.LATE5 = 1;
+
+    UART_write_new_line(
+        "[PI] Painel com mutex. Aperte o botao de emergencia."
+    );
+
+    /* Espera o botao sem liberar o mutex da UART. */
+    sem_wait(&demo_sem);
+
+    antes = tcb->task_prior;
+
+    /*
+     * SCRAM tem prioridade 4: acorda e tenta obter
+     * o mutex que continua pertencendo ao painel.
+     */
+    sem_post(&scram_sem);
+
+    /* Mesma transmissao pendente nos testes ON e OFF. */
+    UART_write_new_line(
+        "[PI] Transmissao fixa do painel: "
+        "01234567890123456789012345678901234567890123456789"
+    );
+
+    /* Guarda as evidencias antes de liberar o mutex. */
+    durante = tcb->task_prior;
+    esperando = uart_mutex.queue_count;
+    dono_correto = (uart_mutex.owner == painel);
+
+    LATEbits.LATE5 = 0;
+    mutex_unlock(&uart_mutex);
+
+    depois = tcb->task_prior;
+
+    /*
+     * Imprime somente depois da disputa.
+     * Este lock tambem impede misturar com a mensagem SCRAM.
+     */
+    mutex_lock(&uart_mutex);
+
+#if PRIORITY_INHERITANCE == ON
+    UART_write_string("[PI] ON | painel: ");
+#else
+    UART_write_string("[PI] OFF | painel: ");
+#endif
+
+    UART_write_int(antes);
+    UART_write_string(" -> ");
+    UART_write_int(durante);
+    UART_write_string(" -> ");
+    UART_write_int(depois);
+
+    UART_write_string(" | esperando: ");
+    UART_write_int(esperando);
+
+    UART_write_string(" | dono era painel: ");
+    UART_write_int(dono_correto);
+    UART_write_new_line("");
+
+    mutex_unlock(&uart_mutex);
+}
+#endif
+
 TASK task_panel(void)
 {
+    #if DEMO_HERANCA == ON
+        demo_heranca();
+    #endif
+
+
+        /* Mantenha todo o conteudo atual deste while. */
     while (1) {
         mutex_lock(&state_mutex);
         uint8_t t = temperature;
@@ -140,7 +233,7 @@ TASK task_panel(void)
         mutex_lock(&uart_mutex);
         LATEbits.LATE5 = 1;
         UART_write_string("[ZukoOS] temperatura = ");
-        UART_write_int(t * 210);
+        UART_write_int(t * 4);
         UART_write_string(" ºC | estado = ");
         UART_write_new_line(state_name[s]);
         UART_write_new_line("[ZukoOS] bomba e sensores verificados, aguardando proximo ciclo...");
@@ -158,6 +251,9 @@ void config_user_app(void)
     TRISDbits.TRISD6 = 1;
     
     sem_init(&scram_sem, 0);
+    #if DEMO_HERANCA == ON
+        sem_init(&demo_sem, 0);
+    #endif
     mutex_init(&state_mutex);
     mutex_init(&uart_mutex);
     

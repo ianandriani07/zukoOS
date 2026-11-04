@@ -69,15 +69,17 @@ void mutex_lock(mutex_t *m)
     }
     
     else if (m->owner != task_running) {
+    #if PRIORITY_INHERITANCE == ON
         if (ReadyQueue.tasks[task_running].task_prior >
             ReadyQueue.tasks[m->owner].task_prior) {
-            
-            ReadyQueue.tasks[m->owner].task_prior = 
+
+            ReadyQueue.tasks[m->owner].task_prior =
                     ReadyQueue.tasks[task_running].task_prior;
-            
         }
+    #endif
+
         m->queue[m->queue_input] = task_running;
-        m->queue_input = __builtin_modsd(m->queue_input+1, MAX_TASKS);
+        m->queue_input = __builtin_modsd(m->queue_input + 1, MAX_TASKS);
         m->queue_count++;
         ReadyQueue.tasks[task_running].task_state = BLOCKED;
         CONTEXT_SWITCH();
@@ -106,19 +108,21 @@ void mutex_unlock(mutex_t *m)
             m->queue_output = __builtin_modsd(m->queue_output+1, MAX_TASKS);
             m->queue_count--;
             
+            #if PRIORITY_INHERITANCE == ON
             uint8_t pos = m->queue_output;
-           
+
             for (uint8_t i = 0; i < m->queue_count; i++) {
                 uint8_t tarefa_aguardando = m->queue[pos];
                 pos = __builtin_modsd(pos + 1, MAX_TASKS);
-                
-                if ( ReadyQueue.tasks[tarefa_aguardando].task_prior >
+
+                if (ReadyQueue.tasks[tarefa_aguardando].task_prior >
                     ReadyQueue.tasks[m->owner].task_prior) {
 
-                    ReadyQueue.tasks[m->owner].task_prior = 
+                    ReadyQueue.tasks[m->owner].task_prior =
                             ReadyQueue.tasks[tarefa_aguardando].task_prior;
                 }
             }
+        #endif
        }   
     }
     __builtin_enable_interrupts();
